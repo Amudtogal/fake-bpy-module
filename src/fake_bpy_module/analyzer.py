@@ -51,10 +51,10 @@ class BaseAnalyzer:
         self.current_file: str = None
         self.current_module: str = None
         self.current_base_classes: str = None
-        self.blender_version: str = None
+        self.target_version: str = None
 
-    def set_blender_version(self, version: str):
-        self.blender_version = version
+    def set_target_version(self, version: str):
+        self.target_version = version
 
     def enable_bge_support(self):
         self.support_bge = True
@@ -101,19 +101,19 @@ class BaseAnalyzer:
         module_name = m.group(2)
 
         if not self.support_bge:
-            if self.blender_version == "2.90":
+            if self.target_version == "2.90":
                 if module_name.startswith("bpy.types."):
                     module_name = module_name[:module_name.rfind(".")]
-            elif self.blender_version == "2.91":
+            elif self.target_version == "2.91":
                 if module_name == "bpy.data":
                     module_name = "bpy"
-            elif self.blender_version == "2.92":
+            elif self.target_version == "2.92":
                 if module_name == "bpy.data":
                     module_name = "bpy"
-            elif self.blender_version == "2.93":
+            elif self.target_version == "2.93":
                 if module_name == "bpy.data":
                     module_name = "bpy"
-            elif self.blender_version == "latest":
+            elif self.target_version == "latest":
                 if module_name == "bpy.data":
                     module_name = "bpy"
 

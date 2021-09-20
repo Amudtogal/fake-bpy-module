@@ -22,7 +22,7 @@ class ImportModuleTestConfig:
 def parse_options(config: ImportModuleTestConfig):
     usage = "Usage: python {} [-p <modules_path>]".format(__file__)
     parser = argparse.ArgumentParser(usage)
-    parser.add_argument("-p", dest="modules_path", type=str, help="fake-bpy-module path")
+    parser.add_argument("-p", dest="modules_path", type=str, help="fake-module path")
 
     args = parser.parse_args()
     if args.modules_path:

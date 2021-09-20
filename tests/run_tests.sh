@@ -38,7 +38,7 @@ failed_test=0
 
 package_list=`find ${PACKAGES_PATH} -name "*.zip"`
 for pkg in ${package_list}; do
-    if [[ ${pkg} =~ (fake_bpy_modules_([a-z0-9\.]+)-(.*)).zip ]]; then
+    if [[ ${pkg} =~ (fake_(bpy|bge)_modules_([a-z0-9\.]+)-(.*)).zip ]]; then
         pkg_dir_name=${BASH_REMATCH[1]}
         blender_version=${BASH_REMATCH[2]}
         pkg_version=${BASH_REMATCH[3]}

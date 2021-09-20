@@ -477,7 +477,8 @@ class PackageGeneratorConfig:
         self.os: str = "Linux"
         self.style_format: str = "pep8"
         self.dump: bool = False
-        self.blender_version: str = None
+        self.target_version: str = None
+        self.upbge_version: str = None
         self.mod_version: str = None
         self.support_bge: bool = False
 
@@ -534,8 +535,8 @@ class PackageAnalyzer:
         # analyze all .rst files
         if self._config.support_bge:
             rule.analyzer().enable_bge_support()
-        if self._config.blender_version is not None:
-            rule.analyzer().set_blender_version(self._config.blender_version)
+        if self._config.target_version is not None:
+            rule.analyzer().set_target_version(self._config.target_version)
         result = rule.analyzer().analyze(target_files)
 
         return result

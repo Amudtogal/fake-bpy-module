@@ -14,8 +14,16 @@ SUPPORTED_MOD_BLENDER_VERSION: List[str] = [
     "2.78", "2.79", "2.80", "2.81", "2.82", "2.83", "2.90", "2.91", "2.92", "2.93",
     "latest"
 ]
+SUPPORTED_MOD_UPBGE_VERSION: List[str] = [
+    "0.2.5",
+    "latest"
+]
 SUPPORTED_BLENDER_VERSION: List[str] = [
     "2.78", "2.79", "2.80", "2.81", "2.82", "2.83", "2.90", "2.91", "2.92", "2.93",
+    "latest"
+]
+SUPPORTED_UPBGE_VERSION: List[str] = [
+    "0.2.5",
     "latest"
 ]
 MOD_FILES_DIR: str = os.path.dirname(os.path.abspath(__file__))
@@ -97,6 +105,13 @@ def make_bmesh_rule(config: 'fbm.PackageGeneratorConfig') -> 'fbm.PackageGenerat
     return fbm.PackageGenerationRule("bmesh", files, fbm.BaseAnalyzer(), fbm.BaseGenerator())
 
 
+def make_bge_rule(config: 'fbm.PackageGeneratorConfig') -> 'fbm.PackageGenerationRule':
+    files = glob.glob(INPUT_DIR + "/bge*.rst")
+
+    files.extend(glob.glob(INPUT_DIR + "/bge_types/bge*.rst"))
+    return fbm.PackageGenerationRule("bge", files, fbm.BaseAnalyzer(), fbm.BaseGenerator())
+
+
 def make_other_rules(config: 'fbm.PackageGeneratorConfig') -> List['fbm.PackageGenerationRule']:
     mod_files = glob.glob("{}/mods/generated_mods/gen_modules_modfile/*.json".format(MOD_FILES_DIR).replace("\\", "/"))
     mod_files += glob.glob("{}/mods/generated_mods/gen_startup_modfile/*.json".format(MOD_FILES_DIR).replace("\\", "/"))
@@ -144,6 +159,10 @@ def parse_options(config: 'fbm.PackageGeneratorConfig'):
         "-b", dest="blender_version", type=str,
         help="Blender version (ex. 2.79, 2.80)"
     )
+    parser.add_argument(
+        "-u", dest="upbge_version", type=str,
+        help="UPBGE version (ex. 0.2.5)"
+    )
     args = parser.parse_args()
     if args.input_dir:
         INPUT_DIR = args.input_dir
@@ -156,21 +175,44 @@ def parse_options(config: 'fbm.PackageGeneratorConfig'):
         raise RuntimeError("Not supported style format {}. "
                            "(Supported Style Format: {})"
                            .format(args.style_format, SUPPORTED_STYLE_FORMAT))
-    if args.mod_version:
-        if args.mod_version in SUPPORTED_MOD_BLENDER_VERSION:
-            config.mod_version = args.mod_version
+
+    if ((args.blender_version and args.upbge_version) or
+            (not args.blender_version and not args.upbge_version)):
+        raise RuntimeError("Specify one of the version blender or upbge")
+
+    if args.upbge_version:
+        if args.upbge_version in SUPPORTED_UPBGE_VERSION:
+            config.target_version = args.upbge_version
         else:
-            raise RuntimeError("Not supported mod version {}. "
+            raise RuntimeError("Not supported upbge version {}. "
                                "(Supported Version: {})"
-                               .format(args.mod_version, SUPPORTED_MOD_BLENDER_VERSION))
+                               .format(args.upbge_version, SUPPORTED_UPBGE_VERSION))
+
+        config.support_bge = True
+
+        if args.mod_version:
+            if args.mod_version in SUPPORTED_MOD_UPBGE_VERSION:
+                config.mod_version = args.mod_version
+            else:
+                raise RuntimeError("Not supported mod version {}. "
+                                "(Supported Version: {})"
+                                .format(args.mod_version, SUPPORTED_MOD_UPBGE_VERSION))
 
     if args.blender_version:
         if args.blender_version in SUPPORTED_BLENDER_VERSION:
-            config.blender_version = args.blender_version
+            config.target_version = args.blender_version
         else:
             raise RuntimeError("Not supported blender version {}. "
                                "(Supported Version: {})"
                                .format(args.blender_version, SUPPORTED_BLENDER_VERSION))
+
+        if args.mod_version:
+            if args.mod_version in SUPPORTED_MOD_BLENDER_VERSION:
+                config.mod_version = args.mod_version
+            else:
+                raise RuntimeError("Not supported mod version {}. "
+                                   "(Supported Version: {})"
+                                   .format(args.mod_version, SUPPORTED_MOD_BLENDER_VERSION))
 
     if args.dump:
         config.dump = True
@@ -192,6 +234,7 @@ def main():
     pkg_generator.add_rule(make_bpy_extras_rule(config))
     pkg_generator.add_rule(make_aud_rule(config))
     pkg_generator.add_rule(make_bmesh_rule(config))
+    pkg_generator.add_rule(make_bge_rule(config))
     for rule in make_other_rules(config):
         pkg_generator.add_rule(rule)
     pkg_generator.generate()
