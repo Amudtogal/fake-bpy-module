@@ -143,7 +143,7 @@ if [ ${deploy_target} = "release" ]; then
     # generate fake module
     fake_module_dir="out"
     ver=v${target_version}
-    if [ ${target} = "blender"]; then
+    if [ ${target} = "blender" ]; then
         if [ ${mod_version} = "not-specified" ]; then
             bash ${SCRIPT_DIR}/../../src/gen_module.sh ${CURRENT_DIR}/${source_dir} ${CURRENT_DIR}/${blender_dir} ${BLENDER_TAG_NAME[${ver}]} ${target} ${target_version} ${fake_module_dir}
         else
