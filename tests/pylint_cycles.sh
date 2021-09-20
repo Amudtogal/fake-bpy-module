@@ -144,7 +144,7 @@ function workaround_quirks() {
     local target=$1
     local version=$2
 
-    if [ $target = "blender"]; then
+    if [ $target = "blender" ]; then
         if [[ $version =~ ^2.8[0-9]$ || $version =~ ^2.9[0-9]$ || $version =~ ^latest$ ]]; then
             # The method draw_panel_header comes from the Panel class which is a base class of CYCLES_PT_sampling_presets.
             # The error "E1120: No value for argument 'layout'" is raised when calling the classmethod implicitly derived
