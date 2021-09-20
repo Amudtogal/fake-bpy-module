@@ -164,7 +164,6 @@ function workaround_quirks() {
             echo "Ignoring pylint bug: https://github.com/PyCQA/pylint/issues/801"
             sed -i '/^\s*if hasattr(.*/i # pylint: disable=no-member' intern/cycles/blender/addon/*.py
         fi
-    elif [ $target = "upbge" ]; then
     fi
 }
 
