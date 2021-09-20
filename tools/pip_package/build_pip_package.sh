@@ -47,7 +47,7 @@ PYTHON_BIN=${PYTHON_BIN:-python}
 
 # check arguments
 if [ $# -ne 5 ] && [ $# -ne 6 ]; then
-    echo "Usage: bash build_pip_package.sh <develop|release> <target> <target-version> <source-dir> <blender-dir> [<mod-version>]"
+    echo "Usage: bash build_pip_package.sh <deploy-target> <target> <target-version> <source-dir> <blender-dir> [<mod-version>]"
     exit 1
 fi
 
@@ -145,15 +145,15 @@ if [ ${deploy_target} = "release" ]; then
     ver=v${target_version}
     if [ ${target} = "blender" ]; then
         if [ ${mod_version} = "not-specified" ]; then
-            bash ${SCRIPT_DIR}/../../src/gen_module.sh ${CURRENT_DIR}/${source_dir} ${CURRENT_DIR}/${blender_dir} ${BLENDER_TAG_NAME[${ver}]} ${target} ${target_version} ${fake_module_dir}
+            bash ${SCRIPT_DIR}/../../src/gen_module.sh ${CURRENT_DIR}/${source_dir} ${CURRENT_DIR}/${blender_dir} ${target} ${BLENDER_TAG_NAME[${ver}]} ${target_version} ${fake_module_dir}
         else
-            bash ${SCRIPT_DIR}/../../src/gen_module.sh ${CURRENT_DIR}/${source_dir} ${CURRENT_DIR}/${blender_dir} ${BLENDER_TAG_NAME[${ver}]} ${target} ${target_version} ${fake_module_dir} ${mod_version}
+            bash ${SCRIPT_DIR}/../../src/gen_module.sh ${CURRENT_DIR}/${source_dir} ${CURRENT_DIR}/${blender_dir} ${target} ${BLENDER_TAG_NAME[${ver}]} ${target_version} ${fake_module_dir} ${mod_version}
         fi
     elif [ ${target} = "upbge" ]; then
         if [ ${mod_version} = "not-specified" ]; then
-            bash ${SCRIPT_DIR}/../../src/gen_module.sh ${CURRENT_DIR}/${source_dir} ${CURRENT_DIR}/${blender_dir} ${UPBGE_TAG_NAME[${ver}]} ${target} ${target_version} ${fake_module_dir}
+            bash ${SCRIPT_DIR}/../../src/gen_module.sh ${CURRENT_DIR}/${source_dir} ${CURRENT_DIR}/${blender_dir} ${target} ${UPBGE_TAG_NAME[${ver}]} ${target_version} ${fake_module_dir}
         else
-            bash ${SCRIPT_DIR}/../../src/gen_module.sh ${CURRENT_DIR}/${source_dir} ${CURRENT_DIR}/${blender_dir} ${UPBGE_TAG_NAME[${ver}]} ${target} ${target_version} ${fake_module_dir} ${mod_version}
+            bash ${SCRIPT_DIR}/../../src/gen_module.sh ${CURRENT_DIR}/${source_dir} ${CURRENT_DIR}/${blender_dir} ${target} ${UPBGE_TAG_NAME[${ver}]} ${target_version} ${fake_module_dir} ${mod_version}
         fi
     else
         echo "${target} is not supported."
@@ -194,17 +194,17 @@ elif [ ${deploy_target} = "develop" ]; then
     # generate fake module
     fake_module_dir="out"
     ver=v${target_version}
-    if [ ${target} = "blender"]; then
+    if [ ${target} = "blender" ]; then
         if [ ${mod_version} = "not-specified" ]; then
-            bash ${SCRIPT_DIR}/../../src/gen_module.sh ${CURRENT_DIR}/${source_dir} ${CURRENT_DIR}/${blender_dir} ${BLENDER_TAG_NAME[${ver}]} ${target} ${target_version} ${fake_module_dir}
+            bash ${SCRIPT_DIR}/../../src/gen_module.sh ${CURRENT_DIR}/${source_dir} ${CURRENT_DIR}/${blender_dir} ${target} ${BLENDER_TAG_NAME[${ver}]} ${target_version} ${fake_module_dir}
         else
-            bash ${SCRIPT_DIR}/../../src/gen_module.sh ${CURRENT_DIR}/${source_dir} ${CURRENT_DIR}/${blender_dir} ${BLENDER_TAG_NAME[${ver}]} ${target} ${target_version} ${fake_module_dir} ${mod_version}
+            bash ${SCRIPT_DIR}/../../src/gen_module.sh ${CURRENT_DIR}/${source_dir} ${CURRENT_DIR}/${blender_dir} ${target} ${BLENDER_TAG_NAME[${ver}]} ${target_version} ${fake_module_dir} ${mod_version}
         fi
     elif [ ${target} = "upbge" ]; then
         if [ ${mod_version} = "not-specified" ]; then
-            bash ${SCRIPT_DIR}/../../src/gen_module.sh ${CURRENT_DIR}/${source_dir} ${CURRENT_DIR}/${blender_dir} ${UPBGE_TAG_NAME[${ver}]} ${target} ${target_version} ${fake_module_dir}
+            bash ${SCRIPT_DIR}/../../src/gen_module.sh ${CURRENT_DIR}/${source_dir} ${CURRENT_DIR}/${blender_dir} ${target} ${UPBGE_TAG_NAME[${ver}]} ${target_version} ${fake_module_dir}
         else
-            bash ${SCRIPT_DIR}/../../src/gen_module.sh ${CURRENT_DIR}/${source_dir} ${CURRENT_DIR}/${blender_dir} ${UPBGE_TAG_NAME[${ver}]} ${target} ${target_version} ${fake_module_dir} ${mod_version}
+            bash ${SCRIPT_DIR}/../../src/gen_module.sh ${CURRENT_DIR}/${source_dir} ${CURRENT_DIR}/${blender_dir} ${target} ${UPBGE_TAG_NAME[${ver}]} ${target_version} ${fake_module_dir} ${mod_version}
         fi
     else
         echo "${target} is not supported."
