@@ -94,7 +94,6 @@ function apply_workaround() {
 
             popd > /dev/null
         fi
-    elif [ ${target} = "upbge" ]; then
     fi
 }
 
@@ -109,7 +108,6 @@ function revert_workaround() {
             git checkout doc/python_api/sphinx_doc_gen.py
             popd > /dev/null
         fi
-    elif [ ${target} = "upbge" ]; then
     fi
 }
 
