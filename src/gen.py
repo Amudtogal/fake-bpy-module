@@ -234,7 +234,8 @@ def main():
     pkg_generator.add_rule(make_bpy_extras_rule(config))
     pkg_generator.add_rule(make_aud_rule(config))
     pkg_generator.add_rule(make_bmesh_rule(config))
-    pkg_generator.add_rule(make_bge_rule(config))
+    if config.support_bge:
+        pkg_generator.add_rule(make_bge_rule(config))
     for rule in make_other_rules(config):
         pkg_generator.add_rule(rule)
     pkg_generator.generate()
