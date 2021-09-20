@@ -777,7 +777,7 @@ class BaseAnalyzerTest(common.FakeBpyModuleTestBase):
         rst_files = ["{}/{}".format(self.data_dir, f) for f in rst_files]
 
         analyzer = BaseAnalyzer()
-        analyzer.set_blender_version("2.90")
+        analyzer.set_target_version("2.90")
         result = analyzer.analyze(rst_files)
 
         self.assertEqual(len(result.section_info), 1)
