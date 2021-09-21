@@ -70,15 +70,18 @@ https://github.com/nutti/fake-bpy-module/archive/master.zip
 
 ```bash
 cd fake-bpy-module/src
-bash gen_module.sh <source-dir> <blender-dir> <branch/tag/commit> <blender-version> <output-dir> <mod-version>
+bash gen_module.sh <source-dir> <blender-dir> <target> <branch/tag/commit> <target-version> <output-dir> <mod-version>
 ```
 
 * `<source-dir>`: Specify Blender sources directory.
 * `<blender-dir>`: Specify Blender binary directory.
+* `<target>`: Specify target.
+  * `blender`: Blender
+  * `upbge`: UPBGE
 * `<branch/tag/commit>`: Specify target Blender source's branch for the generating modules.
   * If you want to generate modules for 2.79, specify `v2.79`
   * If you want to generate modules for newest Blender version, specify `master`
-* `<blender-version>`: Specify blender version.
+* `<target-version>`: Specify target blender version.
 * `<output-dir>`: Specify directory where generated modules are output.
 * `<mod-version>`: Modify APIs by using patch files located in `mods` directory.
   * If you specify `2.80`, all patch files under `mods/2.80` will be used.
@@ -182,7 +185,8 @@ python gen.py -i <input-dir> -o <output-dir> -f <format> -b <blender-version> -m
 * `-d`: Dump internal data structures to `<output-dir>` as the files name with suffix `-dump.json`
 * `-f <format>`: Format the generated code by `<format>` convention.
   * `pep8`: Format generated code by pep8.
-* `-b <blender-version>`: Specify blender version.
+* `-b <blender-version>`: Specify blender version. This option can not be specified with `-u` option.
+* `-u <upbge-version>`: Specify upbge version. This option can not be specified with `-b` option.
 * `-m <mod-version>`: Modify APIs by using patch files located in `mods` directory.
   * If you specify `2.80`, all patch files under `mods/2.80` will be used.
   * Files located in `mods/common` directories will be used at any time.
